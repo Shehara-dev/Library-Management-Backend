@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="004" author="your-name">
+        <createTable tableName="reservations">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reservation_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Add Foreign Keys -->
+        <addForeignKeyConstraint
+            baseTableName="reservations"
+            baseColumnNames="user_id"
+            constraintName="fk_reservations_user"
+            referencedTableName="users"
+            referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+            baseTableName="reservations"
+            baseColumnNames="book_id"
+            constraintName="fk_reservations_book"
+            referencedTableName="books"
+            referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
