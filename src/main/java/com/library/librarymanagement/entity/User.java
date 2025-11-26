@@ -41,7 +41,6 @@ public class User {
         createdAt = LocalDateTime.now();
 
     }
-
     public enum Role {
         LIBRARIAN, USER
     }
