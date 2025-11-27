@@ -33,5 +33,19 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+     public User blacklistUser(Integer userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setIsBlacklisted(true);
+        return userRepository.save(user);
+    }
+    
+    public User unblacklistUser(Integer userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setIsBlacklisted(false);
+        return userRepository.save(user);
+    }
     
 }
