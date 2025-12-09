@@ -11,13 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
-
 public class ReservationController {
     
     @Autowired
     private ReservationService reservationService;
     
     @PostMapping
+    // ✅ FIX: Use hasRole(). This automatically looks for "ROLE_USER"
     @PreAuthorize("hasRole('USER') or hasRole('LIBRARIAN')")
     public ResponseEntity<?> createReservation(@RequestBody ReservationRequest request) {
         try {
@@ -32,18 +32,21 @@ public class ReservationController {
     }
     
     @GetMapping("/user/{userId}")
+    // ✅ FIX: Use hasRole()
     @PreAuthorize("hasRole('USER') or hasRole('LIBRARIAN')")
     public ResponseEntity<List<Reservation>> getUserReservations(@PathVariable Integer userId) {
         return ResponseEntity.ok(reservationService.getUserReservations(userId));
     }
     
     @GetMapping
+    // ✅ FIX: Use hasRole()
     @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAllReservations());
     }
     
     @PatchMapping("/{id}/return")
+    // ✅ FIX: Use hasRole()
     @PreAuthorize("hasRole('USER') or hasRole('LIBRARIAN')")
     public ResponseEntity<?> returnBook(@PathVariable Integer id) {
         try {
