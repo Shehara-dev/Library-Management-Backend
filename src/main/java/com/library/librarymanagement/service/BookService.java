@@ -2,13 +2,13 @@ package com.library.librarymanagement.service;
 
 import com.library.librarymanagement.entity.Book;
 import com.library.librarymanagement.entity.Book.BookStatus;
-import com.library.librarymanagement.entity.Reservation.ReservationStatus; // Import ReservationStatus
+import com.library.librarymanagement.entity.Reservation.ReservationStatus; 
 import com.library.librarymanagement.repository.BookRepository;
 import com.library.librarymanagement.repository.CategoryRepository;
-import com.library.librarymanagement.repository.ReservationRepository; // Import ReservationRepository
+import com.library.librarymanagement.repository.ReservationRepository; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Import Transactional
+import org.springframework.transaction.annotation.Transactional; 
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class BookService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private ReservationRepository reservationRepository; // Inject this!
+    private ReservationRepository reservationRepository; 
     
     public Book createBook(Book book) {
         if (book.getCategory() != null && book.getCategory().getId() != null) {
@@ -72,21 +72,18 @@ public class BookService {
         return bookRepository.save(book);
     }
     
-    // --- UPDATED DELETE LOGIC ---
-    @Transactional // Ensures specific deletions happen together safely
+    
+    @Transactional 
     public void deleteBook(Integer id) {
-        // 1. Check: Is the book currently borrowed?
+      
         boolean isActive = reservationRepository.existsByBookIdAndStatus(id, ReservationStatus.ACTIVE);
         
         if (isActive) {
-            // If yes, STOP. Do not delete. Throw error.
+           
             throw new RuntimeException("Cannot delete: This book is currently reserved/borrowed.");
         }
-
-        // 2. Cleanup: If not active, delete the HISTORY (returned/cancelled logs)
         reservationRepository.deleteByBookId(id);
 
-        // 3. Delete: Now it is safe to delete the book
         bookRepository.deleteById(id);
     }
 }

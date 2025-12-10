@@ -78,7 +78,7 @@ public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         
         return ResponseEntity.ok(new AuthResponse(
             token,
-            user.getId(),  // Add this line
+            user.getId(),  
             user.getEmail(),
             user.getRole().name(),
             "Login successful"

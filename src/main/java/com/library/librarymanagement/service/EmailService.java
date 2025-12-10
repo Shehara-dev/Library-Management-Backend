@@ -36,6 +36,7 @@ public class EmailService {
         }
     }
     
+
     public void sendReservationConfirmation(String toEmail, String bookTitle, String dueDate) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
